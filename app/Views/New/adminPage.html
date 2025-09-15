@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Submission System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('Background.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        .header {
+            background: #4a235a;
+            color: white;
+            padding: 10px 15px; /* Reduced padding for smaller height */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family:  Serif;
+        }
+        .header img {
+            height: 40px; /* Reduced logo height */
+        }
+        .header h1 {
+            font-size: 18px; /* Adjusted title size */
+            margin: 0;
+        }
+        .sidebar {
+        background: #f8f9fa; /* Uniform sidebar background */
+        min-height: calc(100vh - 70px); /* Adjusted for smaller header */
+        padding: 15px;
+        width: 200px; /* Reduced sidebar width */
+        }
+        .sidebar h5 {
+            color: #4a235a; /* Bold title color for Admin Panel */
+            font-weight: bold;
+            font-family:  Serif;
+        }
+        .sidebar .nav-link {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #4a235a; /* Same bold text color for all links */
+            font-family:  Serif;
+            padding: 5px 0; /* Removed button background */
+        }
+        .sidebar .nav-link:hover {
+            color: #4a235a; /* Darker shade on hover */
+        }
+        .main-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 20px;
+            height: calc(100vh - 70px); /* Adjusted for smaller header */
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="d-flex align-items-center">
+            <img src="logo.png" alt="University Logo">
+            <h1 class="ms-3">Document Submission System<br><small>University of Colombo</small></h1>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <h5 class="mb-4">Admin Panel</h5>
+                <a href="#" class="nav-link" onclick="showTab('add-user')">Add User</a>
+                <a href="#" class="nav-link" onclick="showTab('remove-user')">Remove User</a>
+                <a href="#" class="nav-link" onclick="showTab('add-doc-type')">Add Doc Type</a>
+                <a href="/auth/logout" class="nav-link">Logout</a>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col main-content" id="content">
+                <h2>Welcome, Admin!</h2>
+                <p>Select an option from the left to manage the system.</p>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to switch between tabs
+        function showTab(tabId) {
+            const content = document.getElementById('content');
+            if (tabId === 'add-user') {
+                content.innerHTML = `<h2>Add User</h2><p>This is the Add User tab content.</p>`;
+            } else if (tabId === 'remove-user') {
+                content.innerHTML = `<h2>Remove User</h2><p>This is the Remove User tab content.</p>`;
+            } else if (tabId === 'add-doc-type') {
+                content.innerHTML = `<h2>Add Document Type</h2><p>This is the Add Document Type tab content.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

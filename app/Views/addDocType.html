@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Document</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            height: 100vh;
+            background: url('/assets/images/Background.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: serif;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .selected-users ul {
+            list-style: none;
+            padding: 0;
+        }
+        .selected-users li {
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .remove-btn:hover {
+            background: #c0392b;
+        }
+        .btn-save {
+            background-color: #4a235a;
+            color: white;
+        }
+        .btn-save:hover {
+            background-color: #3e1d4d;
+        }
+        h1 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container h-100 d-flex justify-content-center align-items-center">
+        <div class="form-container w-100" style="max-width: 400px;">
+            <h1 class="text-center mb-4">Add Document</h1>
+            <form action="/adminPage/saveDocType" method="POST">
+                <div class="mb-3">
+                    <label for="DocTypeName" class="form-label">Document Type</label>
+                    <input type="text" id="DocTypeName" name="DocTypeName" class="form-control" placeholder="Enter Document Type" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Description" class="form-label">Document Description</label>
+                    <textarea id="Description" name="Description" class="form-control" placeholder="Enter Document Description" rows="4" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="userType" class="form-label">User Type</label>
+                    <select id="userType" class="form-select" required>
+                        <option value="" disabled selected>Select User Type</option>
+                        <?php foreach ($userTypes as $userType): ?>
+                            <option value="<?= $userType['UserTypeID'] ?>"><?= $userType['UserTypeName'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="selected-users mb-3">
+                    <strong>Approval Order:</strong>
+                    <ul id="approvalOrder" class="list-group"></ul>
+                </div>
+
+                <!-- Hidden input to store selected user order -->
+                <input type="hidden" name="selectedUsers" id="selectedUsers">
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-save">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const userTypeSelect = document.getElementById('userType');
+        const approvalOrderList = document.getElementById('approvalOrder');
+        const selectedUsersInput = document.getElementById('selectedUsers');
+
+        let selectedUsers = [];
+
+        userTypeSelect.addEventListener('change', () => {
+            const selectedOption = userTypeSelect.options[userTypeSelect.selectedIndex];
+            const userId = selectedOption.value;
+            const userName = selectedOption.text;
+
+            // Prevent duplicates
+            if (selectedUsers.some(user => user.id === userId)) {
+                alert('User already added!');
+                return;
+            }
+
+            // Add the selected user to the list
+            selectedUsers.push({ id: userId, name: userName });
+            updateApprovalOrder();
+        });
+
+        function updateApprovalOrder() {
+            approvalOrderList.innerHTML = '';
+            selectedUsers.forEach((user, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                listItem.innerHTML = `
+                    ${index + 1}. ${user.name}
+                    <button class="remove-btn btn btn-danger btn-sm" onclick="removeUser('${user.id}')">Remove</button>
+                `;
+                approvalOrderList.appendChild(listItem);
+            });
+
+            // Update hidden input value
+            selectedUsersInput.value = JSON.stringify(selectedUsers.map(user => user.id));
+        }
+
+        function removeUser(userId) {
+            selectedUsers = selectedUsers.filter(user => user.id !== userId);
+            updateApprovalOrder();
+        }
+    </script>
+</body>
+</html>

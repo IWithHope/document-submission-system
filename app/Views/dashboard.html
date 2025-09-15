@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('Background.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        .header {
+            background: #4a235a;
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: Serif;
+        }
+        .header img {
+            height: 40px;
+        }
+        .header h1 {
+            font-size: 18px;
+            margin: 0;
+        }
+        .sidebar {
+            background: #f8f9fa;
+            min-height: calc(100vh - 70px);
+            padding: 15px;
+            width: 200px;
+        }
+        .sidebar h5 {
+            color: #4a235a;
+            font-weight: bold;
+            font-family: Serif;
+        }
+        .sidebar .nav-link {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #4a235a;
+            font-family: Serif;
+            padding: 5px;
+        }
+        .sidebar .nav-link:hover {
+            color: #4a235a;
+        }
+        .main-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+        /* User Profile Styling */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .profile-container img {
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+            cursor: pointer;
+        }
+        /* Popover Styling */
+        .popover-body {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="d-flex align-items-center">
+            <img src="logo.png" alt="University Logo">
+            <h1 class="ms-3">Document Submission System<br><small>University of Colombo</small></h1>
+        </div>
+        <!-- User Profile Section with Hover Details -->
+        <div class="profile-container">
+            <!-- Profile Picture with Hover to Show Details -->
+            <img src="user-profile.jpg" alt="Profile Picture" id="profile-picture" data-bs-toggle="popover" title="User Profile" 
+                 data-bs-content="<b>Email:</b> john.doe@example.com<br><b>Role:</b> Admin" 
+                 data-bs-placement="bottom">
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <h5 class="mb-4">Dashboard</h5>
+                <a href="#" class="nav-link" onclick="showTab('documents')">Documents</a>
+                <a href="#" class="nav-link" onclick="showTab('submit-documents')">Submit Documents</a>
+                <a href="#" class="nav-link" onclick="showTab('check-status')">Check Status</a>
+                <a href="/auth/logout" class="nav-link">Logout</a>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col main-content" id="content">
+                <h2>Welcome!</h2>
+                <p>Select an option from the menu to manage your documents.</p>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Enable popover functionality on the profile picture
+        var profilePicture = document.getElementById('profile-picture');
+        var popover = new bootstrap.Popover(profilePicture, {
+            trigger: 'hover', // Show popover on hover
+            html: true, // Allow HTML content in the popover
+            container: 'body' // Append popover to body (for correct positioning)
+        });
+
+        // Function to switch between tabs
+        function showTab(tabId) {
+            const content = document.getElementById('content');
+            if (tabId === 'documents') {
+                content.innerHTML = '<h2>Documents</h2><p>This is the Documents section.</p>';
+            } else if (tabId === 'submit-documents') {
+                content.innerHTML = '<h2>Submit Documents</h2><p>This is the Submit Documents section.</p>';
+            } else if (tabId === 'check-status') {
+                content.innerHTML = '<h2>Check Status</h2><p>This is the Check Status section.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
